@@ -27,6 +27,7 @@ namespace ApiClient
             Console.WriteLine("[G]ender");
             Console.WriteLine("[C]ulture ");
             Console.WriteLine("[A]nyone still alive? ");
+            Console.WriteLine("[Q]uit...and tell me that thing about the night...");
             Console.WriteLine("");
         }
 
@@ -49,8 +50,17 @@ namespace ApiClient
                         await ViewByGender();
                         break;
                     case "C":
+                        await ViewByCulture();
                         break;
                     case "A":
+                        break;
+                    case "Q":
+                        Console.WriteLine("Remember...The night is dark and full of terrors. ");
+                        Console.WriteLine("");
+                        Console.WriteLine("Now exiting ");
+                        Console.WriteLine("");
+
+                        keepGoing = false;
                         break;
                 }
             }
@@ -59,7 +69,7 @@ namespace ApiClient
         private static async Task ViewByGender()
         {
             var client = new HttpClient();
-            var genderSearch = PromptForString("Please type: [F]emale or [M]ale \n").ToUpper();
+            var genderSearch = PromptForString("Would you like to view the [F]emale or [M]ale characters? \n").ToUpper();
             if (genderSearch == "F")
             {
                 genderSearch = "Female";
@@ -101,6 +111,38 @@ namespace ApiClient
             var table = new ConsoleTable("Name", "Gender", "Culture", "Born", "Died");
 
             foreach (var person in characters)
+            {
+                table.AddRow(person.Name, person.Gender, person.Culture, person.Born, person.Died);
+            }
+            table.Write();
+        }
+
+        private static async Task ViewByCulture()
+        {
+            var client = new HttpClient();
+            var cultureSearch = PromptForString("Would you like to view characters from [W]esteros or [B]raavos? \n").ToUpper();
+            if (cultureSearch == "W")
+            {
+                cultureSearch = "Westeros";
+            }
+            else if (cultureSearch == "B")
+            {
+                cultureSearch = "Braavosi";
+            }
+            else
+            {
+                Console.WriteLine("That's not a valid selection. ");
+            }
+
+            var url = $"https://anapioficeandfire.com/api/characters?culture={cultureSearch}";
+            var responseAsStream = await client.GetStreamAsync(url);
+
+            var characters = await JsonSerializer.DeserializeAsync<List<Characters>>(responseAsStream);
+            var removeNullNames = characters.Where(character => character.Name != "").OrderBy(character => character.Name);
+
+            var table = new ConsoleTable("Name", "Culture", "Gender", "Born", "Died");
+
+            foreach (var person in removeNullNames)
             {
                 table.AddRow(person.Name, person.Gender, person.Culture, person.Born, person.Died);
             }
