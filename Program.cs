@@ -33,8 +33,6 @@ namespace ApiClient
         static async Task Main(string[] args)
         {
             var keepGoing = true;
-
-            DisplayMenu();
             while (keepGoing)
             {
                 DisplayMenu();
@@ -61,31 +59,33 @@ namespace ApiClient
         private static async Task ViewByGender()
         {
             var client = new HttpClient();
-            var genderSearch = PromptForString("Please type: Female or Male \n");
+            var genderSearch = PromptForString("Please type: [F]emale or [M]ale \n").ToUpper();
+            if (genderSearch == "F")
+            {
+                genderSearch = "Female";
+            }
+            else if (genderSearch == "M")
+            {
+                genderSearch = "Male";
+            }
+            else
+            {
+                Console.WriteLine("That's not a valid selection. ");
+            }
 
             var url = $"https://anapioficeandfire.com/api/characters?gender={genderSearch}";
             var responseAsStream = await client.GetStreamAsync(url);
 
             var characters = await JsonSerializer.DeserializeAsync<List<Characters>>(responseAsStream);
-            var onlyFemales = characters.Where(character => character.Name != "");
-            var onlyMales = characters.Where(character => character.Name != "");
+            var removeNullNames = characters.Where(character => character.Name != "");
 
             var table = new ConsoleTable("Name", "Gender", "Culture", "Born");
 
-            if (genderSearch == "Female")
+            foreach (var person in removeNullNames)
             {
-                foreach (var person in onlyFemales)
-                {
-                    table.AddRow(person.Name, person.Gender, person.Culture, person.Born);
-                }
+                table.AddRow(person.Name, person.Gender, person.Culture, person.Born);
             }
-            else if (genderSearch == "Male")
-            {
-                foreach (var person in onlyMales)
-                {
-                    table.AddRow(person.Name, person.Gender, person.Culture, person.Born);
-                }
-            }
+
             table.Write();
         }
 
