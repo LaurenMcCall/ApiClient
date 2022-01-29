@@ -5,22 +5,22 @@ namespace ApiClient
 {
     public class Characters
     {
-        [JsonPropertyName("id")]
-        public int Id { get; set; }
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
 
-        [JsonPropertyName("firstName")]
-        public string FirstName { get; set; }
+        [JsonPropertyName("gender")]
+        public string Gender { get; set; }
 
-        [JsonPropertyName("lastName")]
-        public string LastName { get; set; }
+        [JsonPropertyName("culture")]
+        public string Culture { get; set; }
 
-        [JsonPropertyName("fullName")]
-        public string FullName { get; set; }
+        [JsonPropertyName("born")]
+        public string Born { get; set; }
 
-        [JsonPropertyName("title")]
-        public string Title { get; set; }
+        [JsonPropertyName("died")]
+        public string Died { get; set; }
 
-        [JsonPropertyName("family")]
-        public string Family { get; set; }
+        [JsonPropertyName("isAlive")]
+        public bool IsAlive { get; set; }
     }
 }
