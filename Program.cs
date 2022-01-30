@@ -10,6 +10,32 @@ namespace ApiClient
 {
     class Program
     {
+        public static void DisplayGreeting()
+        {
+            Console.Clear();
+            Console.WriteLine("");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("       \\****__              ____                                              ");
+            Console.WriteLine("         |    *****\\_      --/ *\\-__                                          ");
+            Console.WriteLine("         /_          (_    ./ ,/----'                                         ");
+            Console.WriteLine("           \\__         (_./  /                                                ");
+            Console.WriteLine("              \\__           \\___----^__                                       ");
+            Console.WriteLine("               _/   _                  \\                                      ");
+            Console.WriteLine("        |    _/  __/ )\"\\ _____         *\\                                    ");
+            Console.WriteLine("        |\\__/   /    ^ ^       \\____      )                                   ");
+            Console.WriteLine("         \\___--\"                    \\_____ )                                  ");
+            Console.WriteLine("                                          \"");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("👑 ~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~ 👑");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("        Welcome to the Game of Thrones Database      ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("👑 ~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~ 👑");
+            Console.ForegroundColor = ConsoleColor.White;
+
+        }
 
         public static string PromptForString(string prompt)
         {
@@ -23,7 +49,7 @@ namespace ApiClient
         {
             Console.WriteLine("");
             Console.WriteLine("How would you like to view the characters? ");
-            Console.WriteLine("[V]iew all available data ");
+            Console.WriteLine("[V]iew all available character data ");
             Console.WriteLine("[G]ender");
             Console.WriteLine("[C]ulture ");
             Console.WriteLine("[W]ho is with the gods now? ");
@@ -34,6 +60,7 @@ namespace ApiClient
 
         static async Task Main(string[] args)
         {
+            DisplayGreeting();
             var keepGoing = true;
             while (keepGoing)
             {
@@ -82,11 +109,11 @@ namespace ApiClient
             var characters = await JsonSerializer.DeserializeAsync<List<Characters>>(responseAsStream);
             var removeNullNames = characters.Where(character => character.Name != "").OrderBy(character => character.Name);
 
-            var table = new ConsoleTable("Name", "Gender", "Culture", "Born");
+            var table = new ConsoleTable("Name", "Gender", "Culture", "Born", "Died");
 
             foreach (var person in removeNullNames)
             {
-                table.AddRow(person.Name, person.Gender, person.Culture, person.Born);
+                table.AddRow(person.Name, person.Gender, person.Culture, person.Born, person.Died);
             }
 
             table.Write();
