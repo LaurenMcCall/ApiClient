@@ -49,12 +49,18 @@ namespace ApiClient
         {
             Console.WriteLine("");
             Console.WriteLine("How would you like to view the characters? ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("👑 ~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~ 👑");
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("[V]iew all available character data ");
             Console.WriteLine("[G]ender");
             Console.WriteLine("[C]ulture ");
-            Console.WriteLine("[W]ho is with the gods now? ");
             Console.WriteLine("[S]earch by name ");
+            Console.WriteLine("[W]ho is with the gods now? ");
             Console.WriteLine("[Q]uit...and tell me that thing about the night...");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("👑 ~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~ 👑");
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("");
         }
 
@@ -87,9 +93,9 @@ namespace ApiClient
                         await SearchByName();
                         break;
                     case "Q":
-                        Console.WriteLine("Remember...The night is dark and full of terrors. ");
-                        Console.WriteLine("");
-                        Console.WriteLine("Now exiting ");
+                        Console.WriteLine("❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️");
+                        Console.WriteLine("     Remember...The night is dark and full of terrors   ");
+                        Console.WriteLine("❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️ ❄️");
                         Console.WriteLine("");
 
                         keepGoing = false;
@@ -174,7 +180,7 @@ namespace ApiClient
         private static async Task ViewByCulture()
         {
             var client = new HttpClient();
-            var cultureSearch = PromptForString("Please make a selection: \n[Q]artheen, [D]ornish, [N]orthmen, [I]ronborn, [W]esteros, [B]raavosi, [D]othraki or [V]alyrian \n").ToUpper();
+            var cultureSearch = PromptForString("Please make a selection: \n[Q]artheen, [N]orthmen, [I]ronborn, [W]esteros, [B]raavosi, [D]othraki or [V]alyrian \n").ToUpper();
             cultureSearch = CulturesToSelect(cultureSearch);
 
             var url = $"https://anapioficeandfire.com/api/characters?culture={cultureSearch}&page=1&pageSize=50";
@@ -197,10 +203,6 @@ namespace ApiClient
             if (cultureSearch == "Q")
             {
                 cultureSearch = "Qartheen";
-            }
-            if (cultureSearch == "D")
-            {
-                cultureSearch = "Dornish";
             }
             if (cultureSearch == "I")
             {
